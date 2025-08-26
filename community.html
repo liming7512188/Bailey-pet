@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💬 宠物聊天社区 - PetMatch</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="page-container">
+        <nav class="navbar">
+            <div class="nav-brand"><span class="brand-icon">🐾</span><span class="brand-name">PetMatch</span></div>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">首页</a>
+                <a href="test.html" class="nav-link">宠物测试</a>
+                <a href="knowledge.html" class="nav-link">养护知识</a>
+                <a href="community.html" class="nav-link active">社区交流</a>
+                <a href="about.html" class="nav-link">关于我们</a>
+            </div>
+            <div class="nav-actions">
+                <button class="btn-secondary" onclick="showAuthModal('login')">登录</button>
+                <button class="btn-primary" onclick="showAuthModal('register')">注册</button>
+            </div>
+        </nav>
+
+        <section class="panel section-header">
+            <h1>💬 宠物聊天社区</h1>
+            <p>发布话题、分享图片、点赞评论，结识同好</p>
+        </section>
+
+        <section class="panel community-section" id="community-section">
+            <div class="community-controls">
+                <div class="filter-controls">
+                    <label for="categoryFilter">分类：</label>
+                    <select id="categoryFilter" onchange="filterTopics()">
+                        <option value="all">全部</option>
+                        <option value="daily">日常分享</option>
+                        <option value="care">养护经验</option>
+                        <option value="training">训练技巧</option>
+                        <option value="health">健康医疗</option>
+                        <option value="funny">趣事分享</option>
+                    </select>
+                </div>
+                <div class="sort-controls">
+                    <label for="sortOrder">排序：</label>
+                    <select id="sortOrder" onchange="sortTopics()">
+                        <option value="hot">热门优先</option>
+                        <option value="latest">最新发布</option>
+                        <option value="mostLiked">点赞最多</option>
+                        <option value="mostCommented">评论最多</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="post-topic">
+                <h3>发布新话题</h3>
+                <form id="topicForm" class="topic-form">
+                    <div class="form-group"><label for="topicTitle">标题</label><input type="text" id="topicTitle" required></div>
+                    <div class="form-group"><label for="topicContent">内容</label><textarea id="topicContent" rows="4" required></textarea></div>
+                    <div class="form-group"><label for="topicImage">图片</label><input type="file" id="topicImage" accept="image/*"><div class="image-preview" id="imagePreview"></div></div>
+                    <div class="form-group"><label for="topicCategory">分类</label><select id="topicCategory" required><option value="">请选择</option><option value="daily">日常分享</option><option value="care">养护经验</option><option value="training">训练技巧</option><option value="health">健康医疗</option><option value="funny">趣事分享</option></select></div>
+                    <button type="submit" class="post-btn">🐾 发布话题</button>
+                </form>
+            </div>
+
+            <div class="topics-list">
+                <h3>最新话题</h3>
+                <div class="topics-container" id="topicsContainer"></div>
+            </div>
+        </section>
+
+        <div class="back-home"><a href="index.html" class="btn-outline">← 返回首页</a></div>
+
+        <footer class="footer"><div class="footer-bottom"><p>© 2024 PetMatch</p></div></footer>
+    </div>
+
+    <div class="auth-modal" id="authModal">
+        <div class="auth-content">
+            <button class="auth-close" onclick="closeAuthModal()">&times;</button>
+            <div class="auth-tabs">
+                <button class="auth-tab active" onclick="switchAuthTab('login')">登录</button>
+                <button class="auth-tab" onclick="switchAuthTab('register')">注册</button>
+            </div>
+            <form class="auth-form active" id="loginForm">
+                <div class="form-group"><label for="loginPhone">手机号</label><input type="tel" id="loginPhone" required></div>
+                <div class="form-group"><label for="loginCode">验证码</label><div class="phone-input-group"><input type="text" id="loginCode" required><button type="button" onclick="sendCode('login')">获取验证码</button></div></div>
+                <button type="submit" class="auth-submit">登录</button>
+            </form>
+            <form class="auth-form" id="registerForm">
+                <div class="form-group"><label for="registerPhone">手机号</label><input type="tel" id="registerPhone" required></div>
+                <div class="form-group"><label for="registerCode">验证码</label><div class="phone-input-group"><input type="text" id="registerCode" required><button type="button" onclick="sendCode('register')">获取验证码</button></div></div>
+                <div class="form-group"><label for="registerPassword">设置密码</label><input type="password" id="registerPassword" required></div>
+                <button type="submit" class="auth-submit">注册</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧪 宠物匹配测试 - PetMatch</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="page-container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-brand">
+                <span class="brand-icon">🐾</span>
+                <span class="brand-name">PetMatch</span>
+            </div>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">首页</a>
+                <a href="test.html" class="nav-link active">宠物测试</a>
+                <a href="knowledge.html" class="nav-link">养护知识</a>
+                <a href="community.html" class="nav-link">社区交流</a>
+                <a href="about.html" class="nav-link">关于我们</a>
+            </div>
+            <div class="nav-actions">
+                <button class="btn-secondary" onclick="showAuthModal('login')">登录</button>
+                <button class="btn-primary" onclick="showAuthModal('register')">注册</button>
+            </div>
+        </nav>
+
+        <!-- 测试介绍区域 -->
+        <section class="test-intro">
+            <div class="section-header">
+                <h1>🧪 宠物匹配测试</h1>
+                <p>通过8个简单问题，找到最适合你的宠物伙伴</p>
+            </div>
+            <div class="test-info">
+                <div class="info-card">
+                    <div class="info-icon">⏱️</div>
+                    <h3>测试时长</h3>
+                    <p>约3-5分钟</p>
+                </div>
+                <div class="info-card">
+                    <div class="info-icon">📊</div>
+                    <h3>问题数量</h3>
+                    <p>8个核心问题</p>
+                </div>
+                <div class="info-card">
+                    <div class="info-icon">🎯</div>
+                    <h3>准确度</h3>
+                    <p>95%以上</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 测试区域 -->
+        <section class="test-section" id="testSection">
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+                </div>
+                <div class="progress-text" id="progressText">问题 1 / 8</div>
+            </div>
+            
+            <form id="petTestForm">
+                <div class="question-step" id="question1">
+                    <h3>🐾 第一步：了解你的生活方式</h3>
+                    <div class="form-group">
+                        <label for="weeklyTime">每周在家时长</label>
+                        <select id="weeklyTime" required>
+                            <option value="">请选择...</option>
+                            <option value="1">很少在家（1-2天）</option>
+                            <option value="2">偶尔在家（3-4天）</option>
+                            <option value="3">经常在家（5-6天）</option>
+                            <option value="4">几乎都在家（7天）</option>
+                        </select>
+                    </div>
+                    <div class="btn-group">
+                        <button type="button" class="next-btn" onclick="nextQuestion(1)">下一步 🐾</button>
+                    </div>
+                </div>
+
+                <div class="question-step" id="question2" style="display: none;">
+                    <h3>🐾 第二步：陪伴时间评估</h3>
+                    <div class="form-group">
+                        <label for="companionshipTime">每天能陪伴宠物的时间</label>
+                        <select id="companionshipTime" required>
+                            <option value="">请选择...</option>
+                            <option value="1">很少时间（1小时以下）</option>
+                            <option value="2">短时间（1-2小时）</option>
+                            <option value="3">中等时间（2-4小时）</option>
+                            <option value="4">充足时间（4小时以上）</option>
+                        </select>
+                    </div>
+                    <div class="btn-group">
+                        <button type="button" class="prev-btn" onclick="prevQuestion(2)">上一步 🐾</button>
+                        <button type="button" class="next-btn" onclick="nextQuestion(2)">下一步 🐾</button>
+                    </div>
+                </div>
+
+                <div class="question-step" id="question3" style="display: none;">
+                    <h3>🐾 第三步：压力水平评估</h3>
+                    <div class="form-group">
+                        <label for="stressLevel">你的压力水平</label>
+                        <select id="stressLevel" required>
+                            <option value="">请选择...</option>
+                            <option value="1">压力很大，需要放松</option>
+                            <option value="2">有一定压力</option>
+                            <option value="3">压力适中</option>
+                            <option value="4">压力较小</option>
+                        </select>
+                    </div>
+                    <div class="btn-group">
+                        <button type="button" class="prev-btn" onclick="prevQuestion(3)">上一步 🐾</button>
+                        <button type="button" class="next-btn" onclick="nextQuestion(3)">下一步 🐾</button>
+                    </div>
+                </div>
+
+                <div class="question-step" id="question4" style="display: none;">
+                    <h3>🐾 第四步：预算考虑</h3>
+                    <div class="form-group">
+                        <label for="budget">每月能承担的宠物开销</label>
+                        <select id="budget" required>
+                            <option value="">请选择...</option>
+                            <option value="1">预算有限（100元以下）</option>
+                            <option value="2">预算适中（100-300元）</option>
+                            <option value="3">预算充足（300-500元）</option>
+                            <option value="4">预算充裕（500元以上）</option>
+                        </select>
+                    </div>
+                    <div class="btn-group">
+                        <button type="button" class="prev-btn" onclick="prevQuestion(4)">上一步 🐾</button>
+                        <button type="button" class="next-btn" onclick="nextQuestion(4)">下一步 🐾</button>
+                    </div>
+                </div>
+
+                <div class="question-step" id="question5" style="display: none;">
+                    <h3>🐾 第五步：清洁要求</h3>
+                    <div class="form-group">
+                        <label for="cleanliness">对宠物清洁度的要求</label>
+                        <select id="cleanliness" required>
+                            <option value="">请选择...</option>
+                            <option value="1">要求很高，需要经常清洁</option>
+                            <option value="2">要求较高，定期清洁</option>
+                            <option value="3">要求适中，偶尔清洁</option>
+                            <option value="4">要求较低，很少清洁</option>
+                        </select>
+                    </div>
+                    <div class="btn-group">
+                        <button type="button" class="prev-btn" onclick="prevQuestion(5)">上一步 🐾</button>
+                        <button type="button" class="next-btn" onclick="nextQuestion(5)">下一步 🐾</button>
+                    </div>
+                </div>
+
+                <div class="question-step" id="question6" style="display: none;">
+                    <h3>🐾 第六步：居住空间评估</h3>
+                    <div class="form-group">
+                        <label for="livingSpace">你的居住空间大小</label>
+                        <select id="livingSpace" required>
+                            <option value="">请选择...</option>
+                            <option value="1">空间很小（单间或小户型）</option>
+                            <option value="2">空间较小（一室一厅）</option>
+                            <option value="3">空间适中（两室一厅）</option>
+                            <option value="4">空间较大（三室以上或别墅）</option>
+                        </select>
+                    </div>
+                    <div class="btn-group">
+                        <button type="button" class="prev-btn" onclick="prevQuestion(6)">上一步 🐾</button>
+                        <button type="button" class="next-btn" onclick="nextQuestion(6)">下一步 🐾</button>
+                    </div>
+                </div>
+
+                <div class="question-step" id="question7" style="display: none;">
+                    <h3>🐾 第七步：家庭成员情况</h3>
+                    <div class="form-group">
+                        <label for="familyMembers">家庭成员情况</label>
+                        <select id="familyMembers" required>
+                            <option value="">请选择...</option>
+                            <option value="1">独居或情侣</option>
+                            <option value="2">小家庭（有小孩）</option>
+                            <option value="3">大家庭（多代人）</option>
+                            <option value="4">合租或室友</option>
+                        </select>
+                    </div>
+                    <div class="btn-group">
+                        <button type="button" class="prev-btn" onclick="prevQuestion(7)">上一步 🐾</button>
+                        <button type="button" class="next-btn" onclick="nextQuestion(7)">下一步 🐾</button>
+                    </div>
+                </div>
+
+                <div class="question-step" id="question8" style="display: none;">
+                    <h3>🐾 最后一步：宠物经验评估</h3>
+                    <div class="form-group">
+                        <label for="petExperience">养宠物经验</label>
+                        <select id="petExperience" required>
+                            <option value="">请选择...</option>
+                            <option value="1">完全没有经验</option>
+                            <option value="2">有一些经验</option>
+                            <option value="3">经验丰富</option>
+                            <option value="4">专业级别</option>
+                        </select>
+                    </div>
+                    <div class="btn-group">
+                        <button type="button" class="prev-btn" onclick="prevQuestion(8)">上一步 🐾</button>
+                        <button type="submit" class="submit-btn">🐕 完成测试</button>
+                    </div>
+                </div>
+            </form>
+        </section>
+
+        <!-- 测试结果区域 -->
+        <section class="result-section" id="resultSection" style="display: none;">
+            <div class="section-header">
+                <h2>🎉 测试结果</h2>
+                <p>恭喜你找到了最适合的宠物伙伴！</p>
+            </div>
+            <div id="resultContent"></div>
+            <div class="result-actions">
+                <button class="restart-btn" onclick="restartTest()">🔄 重新测试</button>
+                <a href="knowledge.html" class="btn-outline">📚 了解更多</a>
+                <a href="community.html" class="btn-primary">💬 加入社区</a>
+            </div>
+        </section>
+
+        <!-- 返回首页 -->
+        <div class="back-home">
+            <a href="index.html" class="btn-outline">← 返回首页</a>
+        </div>
+    </div>
+
+    <!-- 登录注册模态框 -->
+    <div class="auth-modal" id="authModal">
+        <div class="auth-content">
+            <button class="auth-close" onclick="closeAuthModal()">&times;</button>
+            
+            <div class="auth-tabs">
+                <button class="auth-tab active" onclick="switchAuthTab('login')">登录</button>
+                <button class="auth-tab" onclick="switchAuthTab('register')">注册</button>
+            </div>
+            
+            <!-- 登录表单 -->
+            <form class="auth-form active" id="loginForm">
+                <div class="form-group">
+                    <label for="loginPhone">手机号</label>
+                    <input type="tel" id="loginPhone" placeholder="请输入手机号" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginCode">验证码</label>
+                    <div class="phone-input-group">
+                        <input type="text" id="loginCode" placeholder="请输入验证码" required>
+                        <button type="button" onclick="sendCode('login')">获取验证码</button>
+                    </div>
+                </div>
+                <button type="submit" class="auth-submit">登录</button>
+            </form>
+            
+            <!-- 注册表单 -->
+            <form class="auth-form" id="registerForm">
+                <div class="form-group">
+                    <label for="registerPhone">手机号</label>
+                    <input type="tel" id="registerPhone" placeholder="请输入手机号" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerCode">验证码</label>
+                    <div class="phone-input-group">
+                        <input type="text" id="registerCode" placeholder="请输入验证码" required>
+                        <button type="button" onclick="sendCode('register')">获取验证码</button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="registerPassword">设置密码</label>
+                    <input type="password" id="registerPassword" placeholder="请设置6-20位密码" required>
+                </div>
+                <button type="submit" class="auth-submit">注册</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

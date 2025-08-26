@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>宠物匹配测试 - 演示版</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 30px 20px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            color: #4a5568;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 1.1rem;
+            color: #718096;
+        }
+        
+        .test-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .test-section h2 {
+            text-align: center;
+            color: #4a5568;
+            margin-bottom: 25px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #4a5568;
+        }
+        
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1rem;
+            background: white;
+        }
+        
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        
+        .result-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            display: none;
+        }
+        
+        .result-section h2 {
+            text-align: center;
+            color: #4a5568;
+            margin-bottom: 25px;
+        }
+        
+        .pet-match {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .pet-match h3 {
+            color: #4a5568;
+            margin-bottom: 20px;
+        }
+        
+        .pet-image img {
+            max-width: 250px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .pet-description {
+            font-size: 1.1rem;
+            color: #4a5568;
+            line-height: 1.8;
+            margin: 20px 0;
+        }
+        
+        .breed-recommendations {
+            margin-bottom: 30px;
+        }
+        
+        .breed-recommendations h4 {
+            color: #4a5568;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .breeds-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        
+        .breed-card {
+            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .breed-card h5 {
+            color: #4a5568;
+            margin-bottom: 10px;
+        }
+        
+        .breed-card p {
+            color: #718096;
+            font-size: 0.9rem;
+        }
+        
+        .care-tips {
+            margin-bottom: 30px;
+        }
+        
+        .care-tips h4 {
+            color: #4a5568;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .tips-content {
+            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+            padding: 20px;
+            border-radius: 10px;
+        }
+        
+        .tips-content ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .tips-content li {
+            padding: 8px 0;
+            color: #4a5568;
+            position: relative;
+            padding-left: 25px;
+        }
+        
+        .tips-content li:before {
+            content: "✨";
+            position: absolute;
+            left: 0;
+            color: #667eea;
+        }
+        
+        .restart-btn {
+            display: block;
+            margin: 0 auto;
+            padding: 12px 25px;
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .test-section,
+            .result-section {
+                padding: 20px;
+            }
+            
+            .breeds-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>🐾 宠物匹配测试</h1>
+            <p>找到最适合你的毛茸茸朋友</p>
+        </header>
+
+        <section class="test-section" id="testSection">
+            <h2>开始你的宠物匹配之旅</h2>
+            <form id="petTestForm">
+                <div class="form-group">
+                    <label for="homeTime">每周在家时长</label>
+                    <select id="homeTime" required>
+                        <option value="">请选择</option>
+                        <option value="low">少于20小时（经常外出）</option>
+                        <option value="medium">20-40小时（偶尔外出）</option>
+                        <option value="high">40小时以上（大部分时间在家）</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="companionTime">每天陪伴宠物时长</label>
+                    <select id="companionTime" required>
+                        <option value="">请选择</option>
+                        <option value="low">少于1小时</option>
+                        <option value="medium">1-3小时</option>
+                        <option value="high">3小时以上</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="stressLevel">压力评定</label>
+                    <select id="stressLevel" required>
+                        <option value="">请选择</option>
+                        <option value="low">压力较小，生活轻松</option>
+                        <option value="medium">压力适中，偶尔紧张</option>
+                        <option value="high">压力较大，经常焦虑</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="budget">每月宠物开销预算</label>
+                    <select id="budget" required>
+                        <option value="">请选择</option>
+                        <option value="low">200元以下</option>
+                        <option value="medium">200-500元</option>
+                        <option value="high">500元以上</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="cleanliness">对清洁的要求</label>
+                    <select id="cleanliness" required>
+                        <option value="">请选择</option>
+                        <option value="low">要求不高，可以接受</option>
+                        <option value="medium">要求适中，需要保持整洁</option>
+                        <option value="high">要求很高，非常爱干净</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="submit-btn">🐕 开始测试</button>
+            </form>
+        </section>
+
+        <section class="result-section" id="resultSection">
+            <h2>🎉 测试结果</h2>
+            <div class="result-content">
+                <div class="pet-match">
+                    <h3>最适合你的宠物类型：<span id="petType"></span></h3>
+                    <div class="pet-image">
+                        <img id="petImage" src="" alt="推荐宠物">
+                    </div>
+                    <p class="pet-description" id="petDescription"></p>
+                </div>
+
+                <div class="breed-recommendations">
+                    <h4>推荐品种</h4>
+                    <div class="breeds-grid" id="breedsGrid"></div>
+                </div>
+
+                <div class="care-tips">
+                    <h4>养护要点</h4>
+                    <div class="tips-content" id="careTips"></div>
+                </div>
+
+                <button class="restart-btn" onclick="restartTest()">🔄 重新测试</button>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // 简化的宠物数据库
+        const petDatabase = {
+            dog: {
+                name: "狗狗",
+                image: "https://images.unsplash.com/photo-1552053831-71594a27632d?w=400&h=300&fit=crop",
+                description: "狗狗是最忠诚的伙伴，它们活泼好动，需要较多的陪伴和运动。",
+                breeds: [
+                    { name: "金毛寻回犬", description: "温顺友善，适合家庭饲养" },
+                    { name: "拉布拉多", description: "聪明忠诚，训练容易" },
+                    { name: "柯基", description: "活泼可爱，适合小户型" }
+                ],
+                careTips: ["每天需要1-2小时的运动时间", "定期洗澡和梳理毛发", "训练基本指令"]
+            },
+            cat: {
+                name: "猫咪",
+                image: "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=400&h=300&fit=crop",
+                description: "猫咪独立优雅，适合忙碌的现代人。",
+                breeds: [
+                    { name: "英国短毛猫", description: "圆脸可爱，性格温和" },
+                    { name: "美国短毛猫", description: "健康强壮，适应力强" },
+                    { name: "波斯猫", description: "优雅高贵，需要精心护理" }
+                ],
+                careTips: ["提供猫砂盆和抓板", "定期梳理毛发", "保持室内环境清洁"]
+            },
+            rabbit: {
+                name: "兔子",
+                image: "https://images.unsplash.com/photo-1585110396000-c9ffd4e4b308?w=400&h=300&fit=crop",
+                description: "兔子安静可爱，适合小户型家庭。",
+                breeds: [
+                    { name: "荷兰垂耳兔", description: "垂耳可爱，性格温顺" },
+                    { name: "安哥拉兔", description: "长毛美丽，需要定期梳理" },
+                    { name: "荷兰侏儒兔", description: "体型小巧，适合新手" }
+                ],
+                careTips: ["提供充足的干草和新鲜蔬菜", "保持笼子清洁干燥", "避免潮湿环境"]
+            }
+        };
+
+        // 测试评分系统
+        const scoringSystem = {
+            homeTime: { low: 1, medium: 2, high: 3 },
+            companionTime: { low: 1, medium: 2, high: 3 },
+            stressLevel: { low: 3, medium: 2, high: 1 },
+            budget: { low: 1, medium: 2, high: 3 },
+            cleanliness: { low: 1, medium: 2, high: 3 }
+        };
+
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('petTestForm');
+            form.addEventListener('submit', handleTestSubmission);
+        });
+
+        // 处理测试提交
+        function handleTestSubmission(event) {
+            event.preventDefault();
+            
+            const formData = {
+                homeTime: document.getElementById('homeTime').value,
+                companionTime: document.getElementById('companionTime').value,
+                stressLevel: document.getElementById('stressLevel').value,
+                budget: document.getElementById('budget').value,
+                cleanliness: document.getElementById('cleanliness').value
+            };
+            
+            if (Object.values(formData).some(value => !value)) {
+                alert('请填写所有问题！');
+                return;
+            }
+            
+            const totalScore = calculateScore(formData);
+            const recommendedPet = matchPet(totalScore);
+            showResults(recommendedPet);
+        }
+
+        // 计算测试分数
+        function calculateScore(formData) {
+            let totalScore = 0;
+            totalScore += scoringSystem.homeTime[formData.homeTime];
+            totalScore += scoringSystem.companionTime[formData.companionTime];
+            totalScore += scoringSystem.stressLevel[formData.stressLevel];
+            totalScore += scoringSystem.budget[formData.budget];
+            totalScore += scoringSystem.cleanliness[formData.cleanliness];
+            return totalScore;
+        }
+
+        // 匹配宠物类型
+        function matchPet(score) {
+            if (score <= 8) return 'rabbit';
+            if (score <= 12) return 'cat';
+            return 'dog';
+        }
+
+        // 显示测试结果
+        function showResults(petType) {
+            const pet = petDatabase[petType];
+            
+            document.getElementById('testSection').style.display = 'none';
+            document.getElementById('resultSection').style.display = 'block';
+            
+            document.getElementById('petType').textContent = pet.name;
+            document.getElementById('petImage').src = pet.image;
+            document.getElementById('petDescription').textContent = pet.description;
+            
+            displayBreeds(pet.breeds);
+            displayCareTips(pet.careTips);
+        }
+
+        // 显示推荐品种
+        function displayBreeds(breeds) {
+            const breedsGrid = document.getElementById('breedsGrid');
+            breedsGrid.innerHTML = '';
+            
+            breeds.forEach(breed => {
+                const breedCard = document.createElement('div');
+                breedCard.className = 'breed-card';
+                breedCard.innerHTML = `
+                    <h5>${breed.name}</h5>
+                    <p>${breed.description}</p>
+                `;
+                breedsGrid.appendChild(breedCard);
+            });
+        }
+
+        // 显示养护要点
+        function displayCareTips(tips) {
+            const careTips = document.getElementById('careTips');
+            careTips.innerHTML = '<ul></ul>';
+            const ul = careTips.querySelector('ul');
+            
+            tips.forEach(tip => {
+                const li = document.createElement('li');
+                li.textContent = tip;
+                ul.appendChild(li);
+            });
+        }
+
+        // 重新开始测试
+        function restartTest() {
+            document.getElementById('petTestForm').reset();
+            document.getElementById('resultSection').style.display = 'none';
+            document.getElementById('testSection').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
